@@ -85,8 +85,6 @@ const getClientByPolicy = async (req, res) => {
 
         if(!clientFound)
             res.status(404).send("No client with given policy");
-        else if(clientFound.role !== 'admin')
-            res.status(403).send("Access denied");
         else
             res.status(200).send(clientFound);
 

@@ -23,7 +23,7 @@ const getPoliciesLinked = async (req, res) => {
 
         clients.forEach(
             client => {
-                if(client.name === clientName && client.role === 'admin')
+                if(client.name === clientName)
                     filteredClients.push(client.id);
             }
         );
