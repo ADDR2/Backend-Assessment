@@ -5,6 +5,8 @@ const path = require("path");
 /* Local libraries */
 const { getAllClients, getAllPolicies } = require(path.resolve(__dirname + "/../utils/requests"));
 const { errorHandler } = require(path.resolve(__dirname + "/../utils/handlers"));
+const { authenticate } = require(path.resolve(__dirname + "/../middlewares/authenticate"));
+const { authorize } = require(path.resolve(__dirname + "/../middlewares/authorize"));
 
 /*
 @param req: request object
@@ -50,6 +52,6 @@ const getPoliciesLinked = async (req, res) => {
 Route of getPoliciesLinked service
 Example of use: GET "http://localhost:3000/policy/Manning"
 */
-router.get("/:clientName", getPoliciesLinked);
+router.get("/:clientName", authenticate, authorize, getPoliciesLinked);
 
 module.exports = router;
