@@ -17,9 +17,9 @@ const authenticate = async (req, res, next) => {
     const token = req.header('x-auth');
 
     try{
-        if(!token) throw new Error("No token given");
+        if(!token) throw new Error("Not logged in");
 
-        const decoded = jwt.verify(token, "fd0873462t665&*^%&5623E9<>?");
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const response = await getAllClients();
         const clients = errorHandler(response, 'clients');
         const clientFound = findItem(clients, decoded.id, 'id');
@@ -32,7 +32,7 @@ const authenticate = async (req, res, next) => {
         }
     } catch(error) {
         res.status(500).send(error.message);
-        console.log(error);
+        console.log(error.message);
     }
 };
 

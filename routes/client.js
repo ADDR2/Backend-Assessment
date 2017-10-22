@@ -17,9 +17,8 @@ function getClient: service that returns client with the given id
 */
 const getClient = async (req, res) => {
     const { clientId } = req.params;
-    try {
-        if(!clientId) throw new Error("No id given");
 
+    try {
         const response = await getAllClients();
         const clients = errorHandler(response, 'clients');
         const clientFound = findItem(clients, clientId, 'id');
@@ -30,7 +29,7 @@ const getClient = async (req, res) => {
             res.status(200).send(clientFound);
     } catch (error) {
         res.status(500).send(error.message);
-        console.log(error);
+        console.log(error.message);
     }
 };
 
@@ -42,8 +41,6 @@ function getClientByName: service that returns list of clients with the given na
 const getClientByName = async (req, res) => {
     const { clientName } = req.params;
     try {
-        if(!clientName) throw new Error("No name given");
-
         const response = await getAllClients();
         const clients = errorHandler(response, 'clients');
         
@@ -52,12 +49,12 @@ const getClientByName = async (req, res) => {
         );
 
         if(filteredClients.length <= 0)
-            res.status(404).send("Client not found");
+            res.status(404).send("No client found");
         else
             res.status(200).send(filteredClients);
     } catch (error) {
         res.status(500).send(error.message);
-        console.log(error);
+        console.log(error.message);
     }
 };
 
@@ -70,8 +67,6 @@ const getClientByPolicy = async (req, res) => {
     const { policyId } = req.params;
 
     try {
-        if(!policyId) throw new Error("No id given");
-
         let response = await getAllPolicies();
         const policies = errorHandler(response, 'policies');
         const policyFound = findItem(policies, policyId, 'id');
@@ -90,7 +85,7 @@ const getClientByPolicy = async (req, res) => {
 
     } catch (error) {
         res.status(500).send(error.message);
-        console.log(error);
+        console.log(error.message);
     }
 };
 
@@ -115,14 +110,14 @@ const loginClient = async (req, res) => {
         else{
             const token = jwt.sign(
                 { id: clientFound.id, email: clientFound.email },
-                "fd0873462t665&*^%&5623E9<>?"
+                process.env.JWT_SECRET
             ).toString();
 
             res.status(200).header('x-auth', token).send(clientFound);
         }
     } catch (error) {
         res.status(500).send(error.message);
-        console.log(error);
+        console.log(error.message);
     }
 };
 

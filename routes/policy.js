@@ -29,7 +29,7 @@ const getPoliciesLinked = async (req, res) => {
         );
 
         if(filteredClients.length <= 0)
-            throw new Error("Client not found");
+            throw new Error("No client found");
         
         response = await getAllPolicies();
         const policies = errorHandler(response, 'policies');

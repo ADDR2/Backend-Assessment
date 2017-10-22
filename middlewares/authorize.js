@@ -16,7 +16,7 @@ const authorize = async (req, res, next) => {
             next();
     } catch(error) {
         res.status(500).send(error.message);
-        console.log(error);
+        console.log(error.message);
     }
 };
 
